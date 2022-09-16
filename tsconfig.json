@@ -20,7 +20,6 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "typeRoots": [
-      "./node_modules/@webgpu/types",
       "./node_modules/@types"
     ]
   },

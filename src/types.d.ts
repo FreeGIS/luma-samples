@@ -1,11 +1,9 @@
-/// <reference types="@webgpu/types" />
-
 declare module '*.module.css' {
   const styles: { [className: string]: string };
   export default styles;
 }
 interface HTMLCanvasElement extends HTMLElement {
-  getContext(contextId: 'webgpu'): GPUPresentationContext | null;
+  getContext(contextId: 'webgl2'): GPUPresentationContext | null;
 }
 
 declare const __SOURCE__: string;
@@ -21,7 +19,7 @@ declare namespace NodeJS {
   }
 }
 
-declare module '*.wgsl' {
+declare module '*.glsl' {
   const shader: 'string';
   export default shader;
 }
