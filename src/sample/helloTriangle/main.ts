@@ -42,7 +42,6 @@ const init: SampleInit = async ({ canvasRef }) => {
   function frame() {
     clear(gl, { color: [0, 0, 0, 1] });
     model.draw();
-
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
@@ -58,16 +57,6 @@ const HelloTriangle: () => JSX.Element = () =>
         name: __filename.substring(__dirname.length + 1),
         contents: __SOURCE__,
       },
-      /*{
-        name: '../../shaders/triangle.vert.wgsl',
-        contents: vs,
-        editable: true,
-      },
-      {
-        name: '../../shaders/red.frag.wgsl',
-        contents: fs,
-        editable: true,
-      },*/
     ],
     filename: __filename,
   });
