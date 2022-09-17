@@ -10,7 +10,12 @@ type Props = {
 };
 
 export const pages = {
-  helloTriangle: dynamic(() => import('../../sample/helloTriangle/main')),
+  helloTriangle: dynamic(() => import('../../sample/helloTriangle')),
+  instanced: dynamic(() => import('../../sample/instanced')),
+  vertexArray: dynamic(() => import('../../sample/vertexArray')),
+  vaoinstanced: dynamic(() => import('../../sample/vaoinstanced')),
+  indices: dynamic(() => import('../../sample/indices')),
+  lumaGeometry: dynamic(() => import('../../sample/lumaGeometry')),
 };
 
 function Page({ slug }: Props): JSX.Element {

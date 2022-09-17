@@ -1,9 +1,9 @@
-import { makeSample, SampleInit } from '../../components/SampleLayout';
+import { makeSample, SampleInit } from '../components/SampleLayout';
 import { Model } from '@luma.gl/engine';
-import { Buffer, clear } from '@luma.gl/webgl';
+import { Buffer, clear, VertexArray } from '@luma.gl/webgl';
 const vs = `#version 300 es
-  in vec2 position;
-  in vec3 color;
+  layout(location=0) in vec2 position;
+  layout(location=1) in vec3 color;
   out vec3 vColor;
   void main() {
     vColor = color;
@@ -28,29 +28,34 @@ const init: SampleInit = async ({ canvasRef }) => {
     gl,
     new Float32Array([1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0])
   );
-
   const model = new Model(gl, {
     vs,
     fs,
-    attributes: {
-      position: positionBuffer,
-      color: colorBuffer,
-    },
     vertexCount: 3,
   });
-
+  // program是必填的，因此得先new Model，再binding Program
+  const vertexArray = new VertexArray(gl, {
+    attributes: {
+      [0]: positionBuffer,
+      [1]: colorBuffer,
+    },
+    program: model.getProgram(),
+  });
   function frame() {
     clear(gl, { color: [0, 0, 0, 1] });
-    model.draw();
+    model.draw({
+      vertexArray: vertexArray,
+    });
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
 };
 
-const HelloTriangle: () => JSX.Element = () =>
+const VertexArraySample: () => JSX.Element = () =>
   makeSample({
-    name: 'Hello Triangle',
-    description: 'Shows rendering a basic triangle.',
+    name: 'VertexArray',
+    description:
+      'webgl2有vao，即使用这个对象把一批次渲染数据放一起，luma要求绑定attributes和program对象.',
     init,
     sources: [
       {
@@ -61,4 +66,4 @@ const HelloTriangle: () => JSX.Element = () =>
     filename: __filename,
   });
 
-export default HelloTriangle;
+export default VertexArraySample;
