@@ -20,9 +20,10 @@ const init: SampleInit = async ({ canvasRef }) => {
   if (canvasRef.current === null) return;
   const gl = canvasRef.current.getContext('webgl2');
   /*
-    attributes包含indices、positions、normals、colors、texCoords、pickingColors这些渲染相关的可选数据属性
+    attributes包含典型的indices、positions、normals、colors、texCoords、pickingColors这些渲染相关的可选数据属性
   */
-  const pyramidGeometry = new Geometry({
+  const triangleGeometry = new Geometry({
+    // attributes 可以通过 属性名称或 索引号定位，如将position改成0，color改成1也是可以的
     attributes: {
       position: {
         size: 2,
@@ -39,7 +40,7 @@ const init: SampleInit = async ({ canvasRef }) => {
   const model = new Model(gl, {
     vs,
     fs,
-    geometry: pyramidGeometry,
+    geometry: triangleGeometry,
   });
 
   function frame() {
@@ -54,7 +55,7 @@ const LumaGeometry: () => JSX.Element = () =>
   makeSample({
     name: 'Luma Geometry',
     description:
-      'Luma提供三种形式的顶点参数，分别是attribute data（前文示例使用），Geometry,VertexArray，本示例使用Geometry示范.',
+      'Luma提供三种形式的顶点参数，分别是attribute data（前文示例使用），Geometry,VertexArray，本示例使用Geometry示范，通过Geometry可以将常用的图形进行封装.',
     init,
     sources: [
       {

@@ -10,12 +10,18 @@ type Props = {
 };
 
 export const pages = {
-  helloTriangle: dynamic(() => import('../../sample/helloTriangle')),
-  instanced: dynamic(() => import('../../sample/instanced')),
-  vertexArray: dynamic(() => import('../../sample/vertexArray')),
-  vaoinstanced: dynamic(() => import('../../sample/vaoinstanced')),
-  indices: dynamic(() => import('../../sample/indices')),
-  lumaGeometry: dynamic(() => import('../../sample/lumaGeometry')),
+  HelloTriangle: dynamic(() => import('../../sample/hello-triangle')),
+  Instanced: dynamic(() => import('../../sample/instanced')),
+  VertexArray: dynamic(() => import('../../sample/vertex-array')),
+  VaoInstanced: dynamic(() => import('../../sample/vao-instanced')),
+  Indices: dynamic(() => import('../../sample/indices')),
+  CustomeGeometry: dynamic(() => import('../../sample/geometry')),
+  ShaderModules: dynamic(() => import('../../sample/shader-modules')),
+  ShaderHooks: dynamic(() => import('../../sample/shader-hooks')),
+  TransformFeedback: dynamic(() => import('../../sample/transform-feedback')),
+  GeoSpatial: dynamic(() => import('../../sample/geospatial')),
+  CubeGeometry: dynamic(() => import('../../sample/cube-geometry')),
+  Lighting: dynamic(() => import('../../sample/lighting')),
 };
 
 function Page({ slug }: Props): JSX.Element {
