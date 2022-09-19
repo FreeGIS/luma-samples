@@ -1,6 +1,6 @@
 import { makeSample, SampleInit } from '../components/SampleLayout';
 import { Model, CubeGeometry } from '@luma.gl/engine';
-import { Texture2D, clear } from '@luma.gl/webgl';
+import { Texture2D, clear, loadImage } from '@luma.gl/webgl';
 import { setParameters } from '@luma.gl/gltools';
 import { Matrix4 } from '@math.gl/core';
 import logoImage from '../../assets/img/vis-logo.png';
@@ -31,16 +31,6 @@ void main(void) {
   outColor = texture(uTexture, vec2(vUV.x, 1.0 - vUV.y));
 }
 `;
-function loadImage(imageSource) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  return new Promise((res, rej) => {
-    const image = new Image();
-    image.src = imageSource; // MUST BE SAME DOMAIN!!!
-    image.onload = function () {
-      res(image);
-    };
-  });
-}
 
 const init: SampleInit = async ({ canvasRef }) => {
   if (canvasRef.current === null) return;
@@ -58,6 +48,18 @@ const init: SampleInit = async ({ canvasRef }) => {
   const viewMatrix = new Matrix4().lookAt({ eye: eyePosition });
   const mvpMatrix = new Matrix4();
 
+  /*
+  luma geometry内置的属性名称和着色器中映射的属性名称，源码读取可知，文档没有，因此，着色器中的顶点名称不能乱写
+  const GLTF_TO_LUMA_ATTRIBUTE_MAP = {
+    POSITION: 'positions',
+    NORMAL: 'normals',
+    COLOR_0: 'colors',
+    TEXCOORD_0: 'texCoords',
+    TEXCOORD_1: 'texCoords1',
+    TEXCOORD_2: 'texCoords2'
+};
+
+  */
   const model = new Model(gl, {
     vs,
     fs,

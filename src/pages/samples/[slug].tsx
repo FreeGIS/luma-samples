@@ -22,6 +22,11 @@ export const pages = {
   GeoSpatial: dynamic(() => import('../../sample/geospatial')),
   CubeGeometry: dynamic(() => import('../../sample/cube-geometry')),
   Lighting: dynamic(() => import('../../sample/lighting')),
+  InstancedTransform: dynamic(() => import('../../sample/instanced-transform')),
+  ProgramManagement: dynamic(() => import('../../sample/program-management')),
+  CubeMap: dynamic(() => import('../../sample/cubemap')),
+  Texture3D: dynamic(() => import('../../sample/texture3d')),
+  Animation: dynamic(() => import('../../sample/animation')),
 };
 
 function Page({ slug }: Props): JSX.Element {

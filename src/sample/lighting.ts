@@ -1,6 +1,6 @@
 import { makeSample, SampleInit } from '../components/SampleLayout';
 import { Model, CubeGeometry } from '@luma.gl/engine';
-import { Texture2D, clear } from '@luma.gl/webgl';
+import { Texture2D, clear, loadImage } from '@luma.gl/webgl';
 import { setParameters } from '@luma.gl/gltools';
 import { phongLighting } from '@luma.gl/shadertools';
 import { Matrix4 } from '@math.gl/core';
@@ -43,16 +43,6 @@ void main(void) {
   gl_FragColor = vec4(surfaceColor, 1.0);
 }
 `;
-function loadImage(imageSource) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  return new Promise((res, rej) => {
-    const image = new Image();
-    image.src = imageSource; // MUST BE SAME DOMAIN!!!
-    image.onload = function () {
-      res(image);
-    };
-  });
-}
 
 const init: SampleInit = async ({ canvasRef }) => {
   if (canvasRef.current === null) return;
@@ -71,12 +61,10 @@ const init: SampleInit = async ({ canvasRef }) => {
   const viewMatrix = new Matrix4().lookAt({ eye: eyePosition });
   const mvpMatrix = new Matrix4();
 
-  const cube = new CubeGeometry();
-  console.log(cube);
   const model = new Model(gl, {
     vs,
     fs,
-    geometry: cube,
+    geometry: new CubeGeometry(),
     uniforms: {
       uTexture: texture,
       uEyePosition: eyePosition,
@@ -120,10 +108,10 @@ const init: SampleInit = async ({ canvasRef }) => {
   requestAnimationFrame(frame);
 };
 
-const LumaCube: () => JSX.Element = () =>
+const Lighting: () => JSX.Element = () =>
   makeSample({
-    name: 'Cube Geometry',
-    description: '方块图形.',
+    name: 'Lighting',
+    description: '光照是webgl中很重要的一节，需要关注法向量，光照计算方式.',
     init,
     sources: [
       {
@@ -134,4 +122,4 @@ const LumaCube: () => JSX.Element = () =>
     filename: __filename,
   });
 
-export default LumaCube;
+export default Lighting;
