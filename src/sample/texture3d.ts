@@ -1,6 +1,6 @@
 import { makeSample, SampleInit } from '../components/SampleLayout';
 import { Model } from '@luma.gl/engine';
-import { Texture3D, Buffer } from '@luma.gl/webgl';
+import { Texture3D, Buffer, clear } from '@luma.gl/webgl';
 import { setParameters } from '@luma.gl/gltools';
 import { Matrix4, radians } from '@math.gl/core';
 import { perlin, lerp, shuffle, range } from '../utils/perlin';
@@ -36,7 +36,7 @@ const FAR = 10.0;
 const init: SampleInit = async ({ canvasRef }) => {
   if (canvasRef.current === null) return;
   const gl = canvasRef.current.getContext('webgl2');
-
+  clear(gl, { color: [0, 0, 0, 1], depth: true });
   const noise = perlin({
     interpolation: lerp,
     permutation: shuffle(range(0, 255), random),
@@ -131,7 +131,7 @@ const init: SampleInit = async ({ canvasRef }) => {
       .multiplyRight(viewMat);
 
     // Draw the cubes
-    gl.clear(gl.COLOR_BUFFER_BIT);
+    //gl.clear(gl.COLOR_BUFFER_BIT);
     cloud.draw({
       uniforms: {
         uTime: tick / 100,
@@ -141,6 +141,7 @@ const init: SampleInit = async ({ canvasRef }) => {
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
+  return gl;
 };
 
 const Texture3DDemo: () => JSX.Element = () =>

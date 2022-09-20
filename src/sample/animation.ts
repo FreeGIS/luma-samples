@@ -4,7 +4,7 @@ import { setParameters } from '@luma.gl/gltools';
 import { dirlight } from '@luma.gl/shadertools';
 import { Matrix4, radians } from '@math.gl/core';
 import { getRandom as random } from '../utils/index';
-
+import { clear } from '@luma.gl/webgl';
 const vs = `#version 300 es
 in vec3 positions;
 in vec3 normals;
@@ -35,7 +35,7 @@ void main(void) {
 const init: SampleInit = async ({ canvasRef, gui }) => {
   if (canvasRef.current === null) return;
   const gl = canvasRef.current.getContext('webgl2');
-
+  clear(gl, { color: [0, 0, 0, 1], depth: true });
   setParameters(gl, {
     clearColor: [0, 0, 0, 1],
     clearDepth: 1,
@@ -159,7 +159,7 @@ const init: SampleInit = async ({ canvasRef, gui }) => {
     //const tick = (time / 1000) * 60;
     if (timeline.playing === true) timeline.update(time);
     // Draw the cubes
-    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    // gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
     for (let i = 0; i < 4; ++i) {
       const cube = cubes[i];
@@ -183,6 +183,7 @@ const init: SampleInit = async ({ canvasRef, gui }) => {
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
+  return gl;
 };
 
 const Animation: () => JSX.Element = () =>

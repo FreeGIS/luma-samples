@@ -4,7 +4,6 @@ import { Texture2D, clear, loadImage } from '@luma.gl/webgl';
 import { setParameters } from '@luma.gl/gltools';
 import { Matrix4 } from '@math.gl/core';
 import logoImage from '../../assets/img/vis-logo.png';
-
 const vs = `#version 300 es
 in vec3 positions;
 in vec2 texCoords;
@@ -35,7 +34,7 @@ void main(void) {
 const init: SampleInit = async ({ canvasRef }) => {
   if (canvasRef.current === null) return;
   const gl = canvasRef.current.getContext('webgl2');
-
+  clear(gl, { color: [0, 0, 0, 1], depth: true });
   setParameters(gl, {
     depthTest: true,
     depthFunc: gl.LEQUAL,
@@ -83,6 +82,7 @@ const init: SampleInit = async ({ canvasRef }) => {
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
+  return gl;
 };
 
 const LumaCube: () => JSX.Element = () =>

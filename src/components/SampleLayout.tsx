@@ -19,7 +19,7 @@ type SourceFileInfo = {
 export type SampleInit = (params: {
   canvasRef: React.RefObject<HTMLCanvasElement>;
   gui?: GUI;
-}) => void | Promise<void>;
+}) => void | Promise<WebGL2RenderingContext>;
 
 /*
 const setShaderRegisteredCallback =
@@ -119,6 +119,8 @@ const SampleLayout: React.FunctionComponent<
   const [error, setError] = useState<unknown | null>(null);
 
   const [activeHash, setActiveHash] = useState<string | null>(null);
+  // 前一个页面的webgl渲染对象
+  let beforeViewWebglContext = null;
   useEffect(() => {
     if (currentHash) {
       setActiveHash(currentHash[1]);
@@ -137,7 +139,9 @@ const SampleLayout: React.FunctionComponent<
       });
 
       if (p instanceof Promise) {
-        p.catch((err: Error) => {
+        p.then((gl) => {
+          beforeViewWebglContext = gl;
+        }).catch((err: Error) => {
           console.error(err);
           setError(err);
         });
@@ -147,18 +151,18 @@ const SampleLayout: React.FunctionComponent<
       setError(err);
     }
   }, []);
-
   useEffect(() => {
-    /* if (setShaderRegisteredCallback) {
-       setShaderRegisteredCallback((source: string, updatedSource) => {
-         const index = props.sources.findIndex(
-           ({ contents }) => contents == source
-         );
-         sources[index].updateCallbacks.push(updatedSource);
-       });
-     }*/
-  }, [sources]);
-
+    return () => {
+      // 写你的销毁要做的事情
+      if (
+        beforeViewWebglContext !== undefined &&
+        beforeViewWebglContext !== null
+      ) {
+        beforeViewWebglContext.getExtension('WEBGL_lose_context').loseContext();
+        beforeViewWebglContext = null;
+      }
+    };
+  }, []);
   return (
     <main>
       <Head>

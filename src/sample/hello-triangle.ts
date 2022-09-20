@@ -19,7 +19,7 @@ const fs = `#version 300 es
 const init: SampleInit = async ({ canvasRef }) => {
   if (canvasRef.current === null) return;
   const gl = canvasRef.current.getContext('webgl2');
-
+  clear(gl, { color: [0, 0, 0, 1], depth: true });
   const positionBuffer = new Buffer(
     gl,
     new Float32Array([-0.5, -0.5, 0.5, -0.5, 0.0, 0.5])
@@ -40,11 +40,12 @@ const init: SampleInit = async ({ canvasRef }) => {
   });
 
   function frame() {
-    clear(gl, { color: [0, 0, 0, 1] });
+    // clear(gl, { color: [0, 0, 0, 1] });
     model.draw();
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
+  return gl;
 };
 
 const HelloTriangle: () => JSX.Element = () =>

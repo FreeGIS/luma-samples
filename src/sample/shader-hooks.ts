@@ -1,7 +1,6 @@
 import { makeSample, SampleInit } from '../components/SampleLayout';
 import { Model, ProgramManager } from '@luma.gl/engine';
 import { Buffer, clear } from '@luma.gl/webgl';
-
 const vs = `#version 300 es
   in vec2 position;
 
@@ -35,7 +34,7 @@ const offsetRightModule = {
 const init: SampleInit = async ({ canvasRef }) => {
   if (canvasRef.current === null) return;
   const gl = canvasRef.current.getContext('webgl2');
-
+  clear(gl, { color: [0, 0, 0, 1], depth: true });
   const programManager = new ProgramManager(gl);
   programManager.addShaderHook('vs:OFFSET_POSITION(inout vec4 position)', {});
 
@@ -73,12 +72,13 @@ const init: SampleInit = async ({ canvasRef }) => {
   });
 
   function frame() {
-    clear(gl, { color: [0, 0, 0, 1] });
+    //clear(gl, { color: [0, 0, 0, 1] });
     model1.draw();
     model2.draw();
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
+  return gl;
 };
 
 const ShaderHooks: () => JSX.Element = () =>

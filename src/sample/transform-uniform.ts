@@ -2,14 +2,14 @@ import { makeSample, SampleInit } from '../components/SampleLayout';
 import { Model, Transform } from '@luma.gl/engine';
 import { Buffer, clear } from '@luma.gl/webgl';
 const transformVs = `#version 300 es
-#define SIN2 0.03489949
-#define COS2 0.99939082
 in vec2 position1;
+uniform float sin2;
+uniform float cos2;
 out vec2 vPosition;
 void main() {
     mat2 rotation = mat2(
-        COS2, SIN2,
-        -SIN2, COS2
+        cos2, sin2,
+        -sin2, cos2
     );
     vPosition = rotation * position1;
 }
@@ -74,7 +74,12 @@ const init: SampleInit = async ({ canvasRef }) => {
   });
 
   function frame() {
-    transform.run();
+    transform.run({
+      uniforms: {
+        sin2: 0.03489949,
+        cos2: 0.99939082,
+      },
+    });
     //clear(gl, { color: [0, 0, 0, 1] });
     model.setAttributes({ position: transform.getBuffer('vPosition') }).draw();
     // 对应model提前绑定顶点
@@ -86,11 +91,11 @@ const init: SampleInit = async ({ canvasRef }) => {
   return gl;
 };
 
-const TransformFeedback: () => JSX.Element = () =>
+const TransformWithUniforms: () => JSX.Element = () =>
   makeSample({
-    name: 'Transform Feedback',
+    name: 'Transform with uniforms',
     description:
-      'Transform Feedback是webgl2新增的特色，通常用于粒子位置交换动画等场景.',
+      'Transform在执行run的时候，可以传入uniforms，本示例简单改造说明.',
     init,
     sources: [
       {
@@ -101,4 +106,4 @@ const TransformFeedback: () => JSX.Element = () =>
     filename: __filename,
   });
 
-export default TransformFeedback;
+export default TransformWithUniforms;

@@ -19,6 +19,8 @@ export const pages = {
   ShaderModules: dynamic(() => import('../../sample/shader-modules')),
   ShaderHooks: dynamic(() => import('../../sample/shader-hooks')),
   TransformFeedback: dynamic(() => import('../../sample/transform-feedback')),
+  TransformUniform: dynamic(() => import('../../sample/transform-uniform')),
+  TransformParticles: dynamic(() => import('../../sample/transform-particles')),
   GeoSpatial: dynamic(() => import('../../sample/geospatial')),
   CubeGeometry: dynamic(() => import('../../sample/cube-geometry')),
   Lighting: dynamic(() => import('../../sample/lighting')),
@@ -27,6 +29,7 @@ export const pages = {
   CubeMap: dynamic(() => import('../../sample/cubemap')),
   Texture3D: dynamic(() => import('../../sample/texture3d')),
   Animation: dynamic(() => import('../../sample/animation')),
+  Wind: dynamic(() => import('../../sample/wind/index')),
 };
 
 function Page({ slug }: Props): JSX.Element {

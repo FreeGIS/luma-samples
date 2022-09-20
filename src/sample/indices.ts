@@ -15,7 +15,7 @@ const fs = `#version 300 es
 const init: SampleInit = async ({ canvasRef }) => {
   if (canvasRef.current === null) return;
   const gl = canvasRef.current.getContext('webgl2');
-
+  clear(gl, { color: [0, 0, 0, 1], depth: true });
   const positionBuffer = new Buffer(
     gl,
     new Float32Array([-0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, 0.5])
@@ -42,7 +42,7 @@ const init: SampleInit = async ({ canvasRef }) => {
   // 源码有问题，不改源码需手动更新下该语句
   //model.vertexArray = vertexArray;
   function frame() {
-    clear(gl, { color: [0, 0, 0, 1] });
+    //clear(gl, { color: [0, 0, 0, 1] });
     // 改modle.js的draw源码，将this.vertexArray更改为vertexArray即可。
     model.draw({
       vertexArray: vertexArray,
@@ -52,6 +52,7 @@ const init: SampleInit = async ({ canvasRef }) => {
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
+  return gl;
 };
 
 const IndicesSample: () => JSX.Element = () =>

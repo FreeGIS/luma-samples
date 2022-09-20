@@ -5,7 +5,6 @@ import { setParameters } from '@luma.gl/gltools';
 import { phongLighting } from '@luma.gl/shadertools';
 import { Matrix4 } from '@math.gl/core';
 import logoImage from '../../assets/img/vis-logo.png';
-
 const vs = `#version 300 es
 in vec3 positions;
 in vec3 normals;
@@ -47,7 +46,7 @@ void main(void) {
 const init: SampleInit = async ({ canvasRef }) => {
   if (canvasRef.current === null) return;
   const gl = canvasRef.current.getContext('webgl2');
-
+  clear(gl, { color: [0, 0, 0, 1], depth: true });
   setParameters(gl, {
     depthTest: true,
     depthFunc: gl.LEQUAL,
@@ -100,12 +99,13 @@ const init: SampleInit = async ({ canvasRef }) => {
       .multiplyRight(viewMatrix)
       .multiplyRight(modelMatrix);
 
-    clear(gl, { color: [0, 0, 0, 1], depth: true });
+    //clear(gl, { color: [0, 0, 0, 1], depth: true });
 
     model.setUniforms({ uMVP: mvpMatrix, uModel: modelMatrix }).draw();
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
+  return gl;
 };
 
 const Lighting: () => JSX.Element = () =>

@@ -5,7 +5,6 @@ import { setParameters } from '@luma.gl/gltools';
 import { phongLighting } from '@luma.gl/shadertools';
 import { Matrix4 } from '@math.gl/core';
 import logoImage from '../../assets/img/vis-logo.png';
-
 const transformVs = `#version 300 es
   in float rotations;
 
@@ -93,6 +92,7 @@ function loadImage(imageSource) {
 const init: SampleInit = async ({ canvasRef }) => {
   if (canvasRef.current === null) return;
   const gl = canvasRef.current.getContext('webgl2');
+  clear(gl, { color: [0, 0, 0, 1], depth: true });
   setParameters(gl, {
     depthTest: true,
     depthFunc: gl.LEQUAL,
@@ -183,7 +183,7 @@ const init: SampleInit = async ({ canvasRef }) => {
 
     transform.run();
 
-    clear(gl, { color: [0, 0, 0, 1], depth: true });
+    // clear(gl, { color: [0, 0, 0, 1], depth: true });
     model
       .setAttributes({
         rotations: [transform.getBuffer('vRotation'), { divisor: 1 }],
@@ -195,6 +195,7 @@ const init: SampleInit = async ({ canvasRef }) => {
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
+  return gl;
 };
 
 const InstancedTransform: () => JSX.Element = () =>

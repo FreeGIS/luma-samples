@@ -19,6 +19,7 @@ const fs = `#version 300 es
 const init: SampleInit = async ({ canvasRef }) => {
   if (canvasRef.current === null) return;
   const gl = canvasRef.current.getContext('webgl2');
+  clear(gl, { color: [0, 0, 0, 1], depth: true });
   /*
     attributes包含典型的indices、positions、normals、colors、texCoords、pickingColors这些渲染相关的可选数据属性
   */
@@ -44,11 +45,12 @@ const init: SampleInit = async ({ canvasRef }) => {
   });
 
   function frame() {
-    clear(gl, { color: [0, 0, 0, 1] });
+    // clear(gl, { color: [0, 0, 0, 1] });
     model.draw();
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
+  return gl;
 };
 
 const LumaGeometry: () => JSX.Element = () =>

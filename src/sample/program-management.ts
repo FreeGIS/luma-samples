@@ -4,7 +4,7 @@ import { dirlight as dirlightBase } from '@luma.gl/shadertools';
 import { setParameters } from '@luma.gl/gltools';
 import { Matrix4, radians } from '@math.gl/core';
 import { getRandom as random } from '../utils/index';
-
+import { clear } from '@luma.gl/webgl';
 const vs = `#version 300 es
 in vec3 positions;
 in vec3 normals;
@@ -46,7 +46,7 @@ const dirlight = Object.assign(
 const init: SampleInit = async ({ canvasRef }) => {
   if (canvasRef.current === null) return;
   const gl = canvasRef.current.getContext('webgl2');
-
+  clear(gl, { color: [0, 0, 0, 1], depth: true });
   setParameters(gl, {
     clearColor: [0, 0, 0, 1],
     clearDepth: 1,
@@ -132,7 +132,7 @@ const init: SampleInit = async ({ canvasRef }) => {
     const modelMatrix = new Matrix4();
 
     // Draw the cubes
-    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    //gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
     for (let i = 0; i < 4; ++i) {
       const cube = cubes[i];
@@ -155,6 +155,7 @@ const init: SampleInit = async ({ canvasRef }) => {
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
+  return gl;
 };
 
 const ProgramManagement: () => JSX.Element = () =>
