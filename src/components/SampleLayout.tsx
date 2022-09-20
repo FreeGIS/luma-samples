@@ -19,7 +19,7 @@ type SourceFileInfo = {
 export type SampleInit = (params: {
   canvasRef: React.RefObject<HTMLCanvasElement>;
   gui?: GUI;
-}) => void | Promise<WebGL2RenderingContext>;
+}) => Promise<any> | Promise<WebGL2RenderingContext>;
 
 /*
 const setShaderRegisteredCallback =
@@ -121,6 +121,7 @@ const SampleLayout: React.FunctionComponent<
   const [activeHash, setActiveHash] = useState<string | null>(null);
   // 前一个页面的webgl渲染对象
   let beforeViewWebglContext = null;
+  let beforeViewMap = null;
   useEffect(() => {
     if (currentHash) {
       setActiveHash(currentHash[1]);
@@ -139,8 +140,10 @@ const SampleLayout: React.FunctionComponent<
       });
 
       if (p instanceof Promise) {
-        p.then((gl) => {
-          beforeViewWebglContext = gl;
+        p.then((resource) => {
+          if (resource instanceof WebGL2RenderingContext)
+            beforeViewWebglContext = resource;
+          else beforeViewMap = resource;
         }).catch((err: Error) => {
           console.error(err);
           setError(err);
@@ -160,6 +163,9 @@ const SampleLayout: React.FunctionComponent<
       ) {
         beforeViewWebglContext.getExtension('WEBGL_lose_context').loseContext();
         beforeViewWebglContext = null;
+      } else if (beforeViewMap !== undefined && beforeViewMap !== null) {
+        beforeViewMap.remove();
+        beforeViewMap = null;
       }
     };
   }, []);

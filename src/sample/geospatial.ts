@@ -134,6 +134,7 @@ const init: SampleInit = async ({ canvasRef }) => {
   map.on('load', () => {
     map.addLayer(new CustomLayer());
   });
+  return map;
 };
 
 const GeoSpatial: () => JSX.Element = () =>

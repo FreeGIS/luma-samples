@@ -6,7 +6,6 @@ import drawVert from './shaders/draw.vert';
 import drawFrag from './shaders/draw.frag';
 import quadVert from './shaders/quad.vert';
 import screenFrag from './shaders/screen.frag';
-//import updateFrag from './shaders/update.frag';
 import transformVs from './shaders/transform.vert';
 const defaultRampColors = {
   0.0: '#3288bd',
@@ -44,20 +43,15 @@ export default class WindGL {
   dropRate: number;
   dropRateBump: number;
   quadBuffer: Buffer;
-  particleIndexBuffer: Buffer;
   backgroundTexture: Texture2D;
   screenTexture: Texture2D;
   colorRampTexture: Texture2D;
-  particleStateTexture0: Texture2D;
-  particleStateTexture1: Texture2D;
   windTexture: Texture2D;
-  particleStateResolution: number;
   _numParticles: number;
   windData: any;
   framebuffer: Framebuffer;
   drawModel: Model;
   screenModel: Model;
-  //updateModel: Model;
   transform: Transform;
   positionBuffer: Buffer;
   positions: Float32Array;
@@ -122,25 +116,6 @@ export default class WindGL {
       drawMode: gl.TRIANGLES,
       vertexCount: 6,
     });
-    /*
-    this.updateModel = new Model(gl, {
-      vs: quadVert,
-      fs: updateFrag,
-      attributes: {
-        a_pos: this.quadBuffer,
-      },
-      uniforms: {
-        u_wind: this.windTexture,
-        u_wind_min: [this.windData.uMin, this.windData.vMin],
-        u_wind_max: [this.windData.uMax, this.windData.vMax],
-        u_wind_res: [this.windData.width, this.windData.height],
-        u_speed_factor: this.speedFactor,
-        u_drop_rate: this.dropRate,
-        u_drop_rate_bump: this.dropRateBump,
-      },
-      drawMode: gl.TRIANGLES,
-      vertexCount: 6,
-    });*/
     this.resize();
   }
 
@@ -200,14 +175,6 @@ export default class WindGL {
 
   set numParticles(numParticles) {
     const gl = this.gl;
-
-    /*const gl = this.gl;
-
-    // we create a square texture where each pixel will hold a particle position encoded as RGBA
-    const particleRes = (this.particleStateResolution = Math.ceil(
-      Math.sqrt(numParticles)
-    ));
-    this._numParticles = particleRes * particleRes;*/
     this._numParticles = numParticles;
     // 每个粒子是xy两个uv坐标
     this.positions = new Float32Array(numParticles * 2);
@@ -215,45 +182,6 @@ export default class WindGL {
       this.positions[i] = Math.random();
     }
     this.positionBuffer = new Buffer(gl, this.positions);
-    /*
-    const particleState = new Uint8Array(this._numParticles * 4);
-    for (let i = 0; i < particleState.length; i++) {
-      particleState[i] = Math.floor(Math.random() * 256); // randomize the initial particle positions
-    }
-    // textures to hold the particle state for the current and the next frame
-  
-    this.particleStateTexture0 = new Texture2D(gl, {
-      data: particleState,
-      width: particleRes,
-      height: particleRes,
-      format: gl.RGBA, //webgl中格式
-      dataFormat: gl.RGBA, //输入数据源格式
-      type: gl.UNSIGNED_BYTE,
-      parameters: {
-        [gl.TEXTURE_MAG_FILTER]: gl.NEAREST,
-        [gl.TEXTURE_MIN_FILTER]: gl.NEAREST,
-        [gl.TEXTURE_WRAP_S]: gl.CLAMP_TO_EDGE,
-        [gl.TEXTURE_WRAP_T]: gl.CLAMP_TO_EDGE,
-      },
-    });
-    this.particleStateTexture1 = new Texture2D(gl, {
-      data: particleState,
-      width: particleRes,
-      height: particleRes,
-      format: gl.RGBA, //webgl中格式
-      dataFormat: gl.RGBA, //输入数据源格式
-      type: gl.UNSIGNED_BYTE,
-      parameters: {
-        [gl.TEXTURE_MAG_FILTER]: gl.NEAREST,
-        [gl.TEXTURE_MIN_FILTER]: gl.NEAREST,
-        [gl.TEXTURE_WRAP_S]: gl.CLAMP_TO_EDGE,
-        [gl.TEXTURE_WRAP_T]: gl.CLAMP_TO_EDGE,
-      },
-    });
-
-    const particleIndices = new Float32Array(this._numParticles);
-    for (let i = 0; i < this._numParticles; i++) particleIndices[i] = i;
-    this.particleIndexBuffer = new Buffer(gl, particleIndices);*/
   }
   get numParticles() {
     return this._numParticles;
@@ -283,11 +211,6 @@ export default class WindGL {
       [gl.DEPTH_TEST]: false,
       [gl.STENCIL_TEST]: false,
     });
-    this.drawScreen();
-  }
-
-  drawScreen() {
-    const gl = this.gl;
     this.transform.run({
       uniforms: {
         u_wind: this.windTexture,
