@@ -9,6 +9,7 @@ interface CodeMirrorEditor extends Editor {
 }
 
 import styles from './SampleLayout.module.css';
+import mapboxgl from 'mapbox-gl';
 
 type SourceFileInfo = {
   name: string;
@@ -19,7 +20,7 @@ type SourceFileInfo = {
 export type SampleInit = (params: {
   canvasRef: React.RefObject<HTMLCanvasElement>;
   gui?: GUI;
-}) => Promise<any> | Promise<WebGL2RenderingContext>;
+}) => Promise<mapboxgl.Map> | Promise<WebGL2RenderingContext>;
 
 /*
 const setShaderRegisteredCallback =
