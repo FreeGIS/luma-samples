@@ -21,7 +21,6 @@ export const pages = {
   TransformFeedback: dynamic(() => import('../../sample/transform-feedback')),
   TransformUniform: dynamic(() => import('../../sample/transform-uniform')),
   TransformParticles: dynamic(() => import('../../sample/transform-particles')),
-  GeoSpatial: dynamic(() => import('../../sample/geospatial')),
   CubeGeometry: dynamic(() => import('../../sample/cube-geometry')),
   Lighting: dynamic(() => import('../../sample/lighting')),
   InstancedTransform: dynamic(() => import('../../sample/instanced-transform')),

@@ -16,10 +16,6 @@
     "export": "next export"
   },
   "dependencies": {
-    "@loaders.gl/core": "^3.2.9",
-    "@loaders.gl/gltf": "^3.2.9",
-    "@loaders.gl/polyfills": "^3.2.9",
-    "@loaders.gl/zip": "^3.2.9",
     "@luma.gl/engine": "^8.5.16",
     "@luma.gl/experimental": "^8.5.16",
     "@luma.gl/gltools": "^8.5.16",
@@ -30,10 +26,7 @@
     "encoding": "^0.1.13",
     "file-loader": "^6.2.0",
     "gl-matrix": "^3.2.1",
-    "i": "^0.3.7",
-    "mapbox-gl": "^2.10.0",
     "next": "^10.0.5",
-    "npm": "^8.19.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "stanford-dragon": "^1.1.1"

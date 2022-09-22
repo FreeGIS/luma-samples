@@ -132,9 +132,6 @@ const init: SampleInit = async ({ canvasRef }) => {
     const eyePosition = [5, -3, 5];
     const view = new Matrix4().lookAt({ eye: eyePosition });
     const projection = new Matrix4().perspective({ fovy: radians(75), aspect });
-
-    //gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
     cube.draw({
       uniforms: {
         uView: view,

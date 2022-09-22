@@ -9,7 +9,6 @@ interface CodeMirrorEditor extends Editor {
 }
 
 import styles from './SampleLayout.module.css';
-import mapboxgl from 'mapbox-gl';
 
 type SourceFileInfo = {
   name: string;
@@ -20,7 +19,7 @@ type SourceFileInfo = {
 export type SampleInit = (params: {
   canvasRef: React.RefObject<HTMLCanvasElement>;
   gui?: GUI;
-}) => Promise<mapboxgl.Map> | Promise<WebGL2RenderingContext>;
+}) => Promise<WebGL2RenderingContext>;
 
 /*
 const setShaderRegisteredCallback =
@@ -120,9 +119,8 @@ const SampleLayout: React.FunctionComponent<
   const [error, setError] = useState<unknown | null>(null);
 
   const [activeHash, setActiveHash] = useState<string | null>(null);
-  // 前一个页面的webgl渲染对象
+  // 前一个页面的webgl渲染对象，在demo切换时一定要销毁gl对象，否则很快就激活太多webgl错误
   let beforeViewWebglContext = null;
-  let beforeViewMap = null;
   useEffect(() => {
     if (currentHash) {
       setActiveHash(currentHash[1]);
@@ -142,9 +140,7 @@ const SampleLayout: React.FunctionComponent<
 
       if (p instanceof Promise) {
         p.then((resource) => {
-          if (resource instanceof WebGL2RenderingContext)
-            beforeViewWebglContext = resource;
-          else beforeViewMap = resource;
+          beforeViewWebglContext = resource;
         }).catch((err: Error) => {
           console.error(err);
           setError(err);
@@ -164,9 +160,6 @@ const SampleLayout: React.FunctionComponent<
       ) {
         beforeViewWebglContext.getExtension('WEBGL_lose_context').loseContext();
         beforeViewWebglContext = null;
-      } else if (beforeViewMap !== undefined && beforeViewMap !== null) {
-        beforeViewMap.remove();
-        beforeViewMap = null;
       }
     };
   }, []);

@@ -4,7 +4,9 @@ in vec2 position;
 out vec2 v_particle_pos;
 void main() {
     gl_PointSize = 1.0;
+    // 风纹理，y轴反了
     gl_Position = vec4(2.0 * position.x - 1.0, 1.0 - 2.0 * position.y, 0, 1);
+    //gl_Position = vec4(2.0 * position.x - 1.0, 2.0 * position.y -1.0, 0, 1);
     v_particle_pos = position;
 }`;
 export default drawVert;
