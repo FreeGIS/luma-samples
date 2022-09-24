@@ -29,6 +29,10 @@ export const pages = {
   Texture3D: dynamic(() => import('../../sample/texture3d')),
   Animation: dynamic(() => import('../../sample/animation')),
   Wind: dynamic(() => import('../../sample/wind/index')),
+  DrawImageSpace: dynamic(() => import('../../sample/draw-image-space')),
+  PrimitiveRestart: dynamic(
+    () => import('../../sample/draw-primitive-restart')
+  ),
 };
 
 function Page({ slug }: Props): JSX.Element {
