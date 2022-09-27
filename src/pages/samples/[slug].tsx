@@ -11,6 +11,7 @@ type Props = {
 
 export const pages = {
   HelloTriangle: dynamic(() => import('../../sample/hello-triangle')),
+  MidLevel: dynamic(() => import('../../sample/hello-triangle-midlevel')),
   Instanced: dynamic(() => import('../../sample/instanced')),
   VertexArray: dynamic(() => import('../../sample/vertex-array')),
   VaoInstanced: dynamic(() => import('../../sample/vao-instanced')),
@@ -33,6 +34,8 @@ export const pages = {
   PrimitiveRestart: dynamic(
     () => import('../../sample/draw-primitive-restart')
   ),
+  DrawRangeArrays: dynamic(() => import('../../sample/draw-range-arrays')),
+  DrawByUBO: dynamic(() => import('../../sample/draw-instanced-ubo')),
 };
 
 function Page({ slug }: Props): JSX.Element {
