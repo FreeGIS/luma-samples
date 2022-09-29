@@ -14,7 +14,6 @@ uniform Transform
 
 layout(location = 0) in vec2 pos;
 flat out int instance;
-
 void main()
 {
     instance = gl_InstanceID;
@@ -30,7 +29,6 @@ uniform Material
 {
     vec4 Diffuse[2];
 } material;
-
 flat in int instance;
 out vec4 color;
 

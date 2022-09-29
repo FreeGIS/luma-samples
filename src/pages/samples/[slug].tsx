@@ -36,6 +36,9 @@ export const pages = {
   ),
   DrawRangeArrays: dynamic(() => import('../../sample/draw-range-arrays')),
   DrawByUBO: dynamic(() => import('../../sample/draw-instanced-ubo')),
+  TextureFetch: dynamic(() => import('../../sample/texture-fetch')),
+  TextureInteger: dynamic(() => import('../../sample/texture-integer')),
+  TextureFormat: dynamic(() => import('../../sample/texture-format')),
 };
 
 function Page({ slug }: Props): JSX.Element {
