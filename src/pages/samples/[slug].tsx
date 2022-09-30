@@ -39,6 +39,7 @@ export const pages = {
   TextureFetch: dynamic(() => import('../../sample/texture-fetch')),
   TextureInteger: dynamic(() => import('../../sample/texture-integer')),
   TextureFormat: dynamic(() => import('../../sample/texture-format')),
+  TextureImmutable: dynamic(() => import('../../sample/texture-immutable')),
 };
 
 function Page({ slug }: Props): JSX.Element {
